@@ -15,6 +15,7 @@ var foundLetter = false;
 
 
 newWord();
+printLetters();
 debugger;
 
 
@@ -46,9 +47,32 @@ function newWord() {
 
 // printLetters - prints out all of the letters and blanks
 function printLetters() {
+	// varPrint contains the letters to be printed
+	var varPrint = "";
+
 	for(var i = 0; i < currentWordLetters.length; i++) {
+		
+		// if the letter is " " print out a blank
+		if (currentWordLetters[i].letter === " ") {
+			currentWordLetters[i].currentState = true;
+			varPrint = varPrint + " ";
+		}
+
+		// if the letter has been guessed, print it out
+		if (currentWordLetters[i].currentState === true) {
+			varPrint = varPrint + currentWordLetters[i].letter;
+		}
+
+		// if letter hasn't been guessed, print out "_ "
+		if (currentWordLetters[i].currentState === false) {
+			varPrint = varPrint + "_ ";
+		}
 
 	}
+	// closes for-loop
+
+	console.log(varPrint);
 }
+// printLetters ============================================
 
 
