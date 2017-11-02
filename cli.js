@@ -11,8 +11,6 @@ var currentWordObject;
 var currentWordLetters = [];
 var attemptedLetters = [];
 
-var foundLetter = false;
-
 
 newWord();
 printLetters();
@@ -32,32 +30,43 @@ function guessingTime() {
 			name: "userInput"
 		}
 	]).then(function(userKey){
+		// safeguard from memory leaks. safety gets set to false if this function has called another function
+		var safety = true;
+
 		// keyCheck is being set to what the user typed in
 		var keyCheck = userKey.userInput;
 
-		// if keyCheck is a letter that's already been attempted, then reprompt the user to guess
-		for (var p = 0; p < attemptedLetters.length; p++) {
-			if (keyCheck === attemptedLetters[p]) {
-				console.log("");
-				printAttempted();
-				printLetters();
-				guessingTime();
+		if (safety === true) {
+			// if keyCheck is a letter that's already been attempted, then reprompt the user to guess
+			for (var p = 0; p < attemptedLetters.length; p++) {
+				if (keyCheck === attemptedLetters[p]) {
+					safety = false;
+					console.log("");
+					printAttempted();
+					printLetters();
+					guessingTime();
+				}
 			}
+			// closes for-loop
 		}
-		// closes for-loop
 
-		// if keyCheck is a valid letter, then will call checkLetter
-		for(var i = 0; i < validLetters.length; i++) {
-			if (keyCheck === validLetters[i]) {
-				checkLetter(keyCheck);
+		if (safety === true) {
+			// if keyCheck is a valid letter, then will call checkLetter
+			for(var i = 0; i < validLetters.length; i++) {
+				if (keyCheck === validLetters[i]) {
+					safety = false;
+					checkLetter(keyCheck);
+				}
 			}
+			// closes for-loop
 		}
-		// closes for-loop
 
-		console.log("");
-		printAttempted();
-		printLetters();
-		guessingTime();
+		if (safety === true) {
+			console.log("");
+			printAttempted();
+			printLetters();
+			guessingTime();
+		}
 
 	});
 }
@@ -67,6 +76,29 @@ function guessingTime() {
 
 // checkLetter - this will check the letter that the user types
 function checkLetter(typedKey) {
+	// foundLetter will be set to true if a new letter has been guessed
+	var foundLetter = false;
+
+	// compares typedKey to each of the letters in currentWordLetters
+	for (var i = 0; i < currentWordLetters.length; i++) {
+		
+		// if typedKey matches a letter that hasn't been guessed yet, set that letter to true
+		if (typedKey === currentWordLetters[i].letter && currentWordLetters[i].currentState === false) {
+			currentWordLetters[i].currentState = true;
+			foundLetter = true;
+		}
+
+	}
+	// closes for-loop
+
+	if (foundLetter === false) {
+		currentWordObject.triesLeft--;
+	}
+
+	console.log("");
+	printAttempted();
+	printLetters();
+	guessingTime();
 
 }
 // checkLetter =================================================

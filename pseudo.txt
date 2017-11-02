@@ -10,24 +10,25 @@ CurrentWordLetters - Array of letter objects for current word
 MasterList - Array of list of words
 AttemptedLetters - Array of attempted letters
 
-userInput:
+guessingTime:
 	-if letter has already been attempted, reprompt user
 	-if a valid letter, call checkLetter
 	-if not a valid letter, reprompt user
 
 
-checkLetter:	
-	-else compare input to letters in currentWord
+checkLetter:
+	var foundLetter = false	
+	-compare input to letters in currentWordLetters
 		-for loop that loops through each letter
 			-if (input === letter && currentstate === false)
 				-change current state to true
+				-set foundLetter to true
 		-if (foundletter is false)
 			-decrement tries remaining
 			-pushes input to attemptedLetters
 		-if (triesremaining = 0)
 			-gameover
 			-wanna play again?
-		-return foundletter back to false
 	-PrintLetters
 	-Run user input again
 
@@ -39,6 +40,8 @@ newWord:
 -Creates a bunch of Letter objects for the word
 	-pushes those letters to currentWordLetters
 
+printAttempted:
+-Prints out letters that have already been attempted
 
 printLetters:
 -Prints out all of the letters
