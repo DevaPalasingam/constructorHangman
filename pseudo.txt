@@ -1,0 +1,41 @@
+Game start:
+-Grabs a random word from array
+-Creates a Word object for that word
+-Creates a bunch of Letter objects for the word
+
+Print Letters:
+-Prints out all of the letters
+	-if the letter hasn't been figured out yet, prints "_ "
+	-if the letter has been figured out, prints the letter
+
+Var: foundletter - this will be set if a letter was found
+
+User Input:
+	-if not a valid letter, do nothing
+	-If (input is in array of attempted letters) {do nothing}
+	-else compare input to letters in currentWord
+		-for loop that loops through each letter
+			-if (input === letter && currentstate === false)
+				-change current state to true
+		-if (foundletter is false)
+			-decrement tries remaining
+		-if (triesremaining = 0)
+			-gameover
+			-wanna play again?
+		-return foundletter back to false
+	-PrintLetters
+	-Run user input again
+
+
+ValidLetters: Array of all the letters of the alphabet
+CurrentWord: Array of letter objects for current word
+MasterList: Array of list of words
+AttemptedLetters: Array of attempted letters
+
+Constructors:
+-Word - object with attributes of word
+	-word
+	-tries remaining
+-Letter - object with attributes of a letter
+	-letter
+	-current state of the letter

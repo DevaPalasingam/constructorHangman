@@ -1,0 +1,22 @@
+{
+  "name": "constructorhangman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevaPalasingam/constructorHangman.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevaPalasingam/constructorHangman/issues"
+  },
+  "homepage": "https://github.com/DevaPalasingam/constructorHangman#readme",
+  "dependencies": {
+    "inquirer": "^3.3.0"
+  }
+}
