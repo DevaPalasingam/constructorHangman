@@ -62,6 +62,7 @@ function guessingTime() {
 		}
 
 		if (safety === true) {
+			safety = false;
 			console.log("");
 			printAttempted();
 			printLetters();
@@ -76,6 +77,9 @@ function guessingTime() {
 
 // checkLetter - this will check the letter that the user types
 function checkLetter(typedKey) {
+	// safeguard from memory leaks. safety gets set to false if this function has called another function
+	var safety = true;
+
 	// foundLetter will be set to true if a new letter has been guessed
 	var foundLetter = false;
 
@@ -91,18 +95,38 @@ function checkLetter(typedKey) {
 	}
 	// closes for-loop
 
-	if (foundLetter === false) {
-		currentWordObject.triesLeft--;
-	}
 
-	console.log("");
-	printAttempted();
-	printLetters();
-	guessingTime();
+	// if foundLetter is still false, then decrements tries left
+	if (safety === true) {
+		if (foundLetter === false) {
+			currentWordObject.triesLeft--;
+
+			// if there are no tries left, goes to gameOver
+			if (currentWordObject.triesLeft <= 0) {
+				safety = false;
+				gameOver();
+			}
+
+		}
+	}
+	// closes if-statement
+
+
+	// reprompts user to guess
+	if (safety === true) {
+		safety = false;
+		console.log("");
+		printAttempted();
+		printLetters();
+		guessingTime();
+	}
 
 }
 // checkLetter =================================================
 
+function gameOver() {
+
+}
 
 // newWord - function that picks a new word
 function newWord() {
