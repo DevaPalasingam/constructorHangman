@@ -44,3 +44,11 @@ function newWord() {
 // newWord =====================================================
 
 
+// printLetters - prints out all of the letters and blanks
+function printLetters() {
+	for(var i = 0; i < currentWordLetters.length; i++) {
+
+	}
+}
+
+

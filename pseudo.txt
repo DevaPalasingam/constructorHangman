@@ -38,6 +38,7 @@ newWord:
 
 printLetters:
 -Prints out all of the letters
+	-if letter is " ", then sets currentState to true and prints " "
 	-if the letter hasn't been figured out yet, prints "_ "
 	-if the letter has been figured out, prints the letter
 
