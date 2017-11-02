@@ -11,8 +11,12 @@ MasterList - Array of list of words
 AttemptedLetters - Array of attempted letters
 
 userInput:
-	-if not a valid letter, do nothing
-	-If (input is in array of attempted letters) {do nothing}
+	-if letter has already been attempted, reprompt user
+	-if a valid letter, call checkLetter
+	-if not a valid letter, reprompt user
+
+
+checkLetter:	
 	-else compare input to letters in currentWord
 		-for loop that loops through each letter
 			-if (input === letter && currentstate === false)

@@ -16,10 +16,60 @@ var foundLetter = false;
 
 newWord();
 printLetters();
-debugger;
+guessingTime();
 
 
 
+
+
+
+// guessingTime - prompts the user to type a letter. checks if a valid letter has been typed
+function guessingTime() {
+	inquirer.prompt([
+		{
+			type: "input",
+			message: "Guess a letter",
+			name: "userInput"
+		}
+	]).then(function(userKey){
+		// keyCheck is being set to what the user typed in
+		var keyCheck = userKey.userInput;
+
+		// if keyCheck is a letter that's already been attempted, then reprompt the user to guess
+		for (var p = 0; p < attemptedLetters.length; p++) {
+			if (keyCheck === attemptedLetters[p]) {
+				console.log("");
+				printAttempted();
+				printLetters();
+				guessingTime();
+			}
+		}
+		// closes for-loop
+
+		// if keyCheck is a valid letter, then will call checkLetter
+		for(var i = 0; i < validLetters.length; i++) {
+			if (keyCheck === validLetters[i]) {
+				checkLetter(keyCheck);
+			}
+		}
+		// closes for-loop
+
+		console.log("");
+		printAttempted();
+		printLetters();
+		guessingTime();
+
+	});
+}
+// guessingTime ===============================================
+
+
+
+// checkLetter - this will check the letter that the user types
+function checkLetter(typedKey) {
+
+}
+// checkLetter =================================================
 
 
 // newWord - function that picks a new word
@@ -74,5 +124,15 @@ function printLetters() {
 	console.log(varPrint);
 }
 // printLetters ============================================
+
+
+// printAttempted - prints letters that have already been attempted
+function printAttempted() {
+	var attempted = "";
+	for(var i = 0; i < attemptedLetters.length; i++) {
+		attempted = attempted + attemptedLetters[i];
+	}
+	console.log("Letters attempted: " + attempted);
+}
 
 
