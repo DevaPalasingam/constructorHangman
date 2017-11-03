@@ -17,18 +17,23 @@ guessingTime:
 
 
 checkLetter:
+	var gotAll = true
 	var foundLetter = false	
 	-compare input to letters in currentWordLetters
 		-for loop that loops through each letter
 			-if (input === letter && currentstate === false)
 				-change current state to true
 				-set foundLetter to true
+			-if (current letter is false)
+				-set gotAll to false
+				-//if gotAll stays true throughout the entire loop, then we've solved all the letters
+		-if (gotAll is true)
+			-call newWord()
 		-if (foundletter is false)
 			-decrement tries remaining
 			-pushes input to attemptedLetters
 		-if (triesremaining = 0)
 			-gameover
-			-wanna play again?
 	-PrintLetters
 	-Run user input again
 

@@ -13,9 +13,6 @@ var attemptedLetters = [];
 
 
 newWord();
-printLetters();
-guessingTime();
-
 
 
 
@@ -43,6 +40,7 @@ function guessingTime() {
 					safety = false;
 					console.log("");
 					printAttempted();
+					console.log("Tries Left: " + currentWordObject.triesLeft);
 					printLetters();
 					guessingTime();
 				}
@@ -65,6 +63,7 @@ function guessingTime() {
 			safety = false;
 			console.log("");
 			printAttempted();
+			console.log("Tries Left: " + currentWordObject.triesLeft);
 			printLetters();
 			guessingTime();
 		}
@@ -80,6 +79,9 @@ function checkLetter(typedKey) {
 	// safeguard from memory leaks. safety gets set to false if this function has called another function
 	var safety = true;
 
+	// gotAll will be set to false if there are still letters that haven't been guessed
+	var gotAll = true;
+
 	// foundLetter will be set to true if a new letter has been guessed
 	var foundLetter = false;
 
@@ -87,19 +89,37 @@ function checkLetter(typedKey) {
 	for (var i = 0; i < currentWordLetters.length; i++) {
 		
 		// if typedKey matches a letter that hasn't been guessed yet, set that letter to true
-		if (typedKey === currentWordLetters[i].letter && currentWordLetters[i].currentState === false) {
+		if (typedKey === currentWordLetters[i].letter) {
 			currentWordLetters[i].currentState = true;
 			foundLetter = true;
+		}
+
+		// if there are still letters that haven't been guessed, gotAll will be set to false
+		if (currentWordLetters[i].currentState === false) {
+			gotAll = false;
 		}
 
 	}
 	// closes for-loop
 
+	
+	// if gotAll stays true throughout the for-loop then we've solved all the letters
+	if (safety === true) {
+		if (gotAll === true) {
+			safety = false;
+			printLetters();
+			console.log("Congrats! New Word");
+			newWord();
+		}
+	}
+	// closes if-statement
 
-	// if foundLetter is still false, then decrements tries left
+
+	// if foundLetter is still false, then decrements tries left, also pushes typedKey to attemptedLetters
 	if (safety === true) {
 		if (foundLetter === false) {
 			currentWordObject.triesLeft--;
+			attemptedLetters.push(typedKey);
 
 			// if there are no tries left, goes to gameOver
 			if (currentWordObject.triesLeft <= 0) {
@@ -117,6 +137,7 @@ function checkLetter(typedKey) {
 		safety = false;
 		console.log("");
 		printAttempted();
+		console.log("Tries Left: " + currentWordObject.triesLeft);
 		printLetters();
 		guessingTime();
 	}
@@ -125,7 +146,28 @@ function checkLetter(typedKey) {
 // checkLetter =================================================
 
 function gameOver() {
+	inquirer.prompt([
+		{
+			type: "input",
+			message: "Game Over. Try again? yes or no",
+			name: "userInput"
+		}
+	]).then(function(response){
 
+		var choice = response.userInput;
+
+		if (choice === "yes") {
+			newWord();
+		}
+		else if (choice === "no") {
+			console.log("Goodbye");
+			process.exit();
+		}
+		else {
+			gameOver();
+		}
+
+	});
 }
 
 // newWord - function that picks a new word
@@ -146,6 +188,9 @@ function newWord() {
 		var makeLetter = new letterConstruct(chosenWord.charAt(i), false);
 		currentWordLetters.push(makeLetter);
 	}
+
+	printLetters();
+	guessingTime();
 
 }
 // newWord =====================================================
